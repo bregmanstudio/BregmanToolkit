@@ -1,0 +1,65 @@
+# Assignment 4, Parts 1-4 informative, Part 5, graded.
+import os
+import os.path
+import bregman
+examples_path = os.path.split(bregman.__file__)[0]+os.sep+'examples'+os.sep+'examples_plca.py'
+execfile(examples_path)
+
+play(x) # the amen break is loaded for you
+p # inspect the feature parameters
+
+#1. PLCA, run the following examples
+#help ex_1a()
+w,z,h = ex_1a(x, p, n=4)
+
+#help ex_1b()
+#try the following with different values of alphaZ, alphaH, n
+w,z,h = ex_1b(x, p, n=4, alphaZ=-0.01, alphaH=-0.00001)
+
+#2. Shift invariant PLCA (time-shift only)
+#Using a 2D basis with a 1D convolution kenel for each component
+
+#help ex_2a()
+# Try the following with different values of n and win
+w,z,h = ex_2a(x, p, n=4, win=5)
+imagesc(w[:,0,:]) # show first basis function
+imagesc(w[:,0,:]) # show second basis function
+# etc..
+figure()
+plot(h[0,:]) # plot first time kernel
+plot(h[1,:]) # plot second time kernel
+
+#help ex_2b()
+# Try the following with different values of alphaZ, alphaH, win
+w,z,h = ex_2b(x, p, n=10, win=5, alphaZ=-0.01, alphaH=-0.00001)
+
+#3. 2D shift-invariant PLCA, no shift in frequency
+#help ex_3a
+# Try the following with different values of n and win=(1,10) and (1,3)
+w,z,h = ex_3a(x, p, n=4, win=(1,5))
+imagesc(w[:,0,:]) # show first basis function
+imagesc(h[0,:,:]) # show first 2D convolution kernel (actually 1D, no freq shift)
+
+#help ex_3b()
+w,z,h = ex_3b(x, p, n=1, win=(24,5))
+imagesc(w[:,0,:]) # show only basis function
+imagesc(h[0,:,:]) # show only 2D convolution kernel (with freq shifts)
+
+# 4. Doing it on a pitched example
+audio_file = os.path.split(bregman.__file__)[0]+os.sep+'audio'+os.sep+'gmin.wav'
+x, sr, fmt = wavread(audio_file)
+p['nbpo'] = 36 # increase CQFT frequency resolution
+w,z,h = ex_3b(x, p, n=1, win=(36,5))
+imagesc(w[:,0,:]) # show only basis function
+imagesc(h[0,:,:]) # show only 2D convolution kernel (with freq shifts)
+# The latter is a piono roll transcription, with wrapping at the extremes of the pitch range 
+# So, we have essentially achived an automatic transcription.
+
+# 5.
+# For a 20s-30s piece of music of your choosing, perform a 2D shift-invariant analysis
+# optimize the parameters so that your analysis "makes sense"
+# Be prepared to present your analysis, and any interesting conclusions, in class. Make a 2-3 page writeup of your analysis,
+# with figures.
+#
+# Some Ideas: finding riffs in pop music, analysis of sound objects in Musique Concrete, analysis of texture in Ligeti or Lachemann
+# 
