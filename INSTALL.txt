@@ -8,20 +8,21 @@ This will place Bregman in your Python distribution path.
 
 See README for details on how to use Bregman
 
--MC 11.14.11
+-MC 16.07.14
 
 Dependencies:
 
-setuptools
-python-dev
+ setuptools
+ python-dev
 
-python 2.5+
-numpy
-matplotlib
-scipy
+ python 2.5+
+ numpy
+ matplotlib
+ scipy
 
-scikits.audiolab
-libsndfile-dev
+ optional:
+  scikits.audiolab
+  libsndfile-dev
 
 
 
