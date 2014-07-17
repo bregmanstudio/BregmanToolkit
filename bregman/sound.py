@@ -200,7 +200,7 @@ try: # OSX / Linux
         command = [sound_options['soundplayer'], AUDIO_TMP_FILE]
         res = subprocess.call(command)
         if res:
-            raise error.BregmanError("Error in "+command)
+            raise error.BregmanError("Error in "+command[0])
         return res            
 except: # Windows     
     import winsound
