@@ -1,3 +1,4 @@
+import pylab
 import bregman
 from features import *
 from segment import *
@@ -6,17 +7,11 @@ from testsignal import *
 from psychoacoustics import *
 from tuning import *
 from sound import *
-from audiocollection import *
-from testcollection import *
 from plca import *
 from distance import *
 from classifier import *
-from evaluate import *
 from error import *
 from beat import *
-
-import pylab
-
 
 bregman_data_root = os.path.split(bregman.__file__)[0]
 examples_dir = os.path.join(bregman_data_root,"examples/")

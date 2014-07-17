@@ -17,7 +17,7 @@ import features
 try:
     import pyadb
 except ImportError:
-    pass
+    print "pyadb missing - audioDB database functions not installed."
 from scipy.signal import resample
 import pdb
 
