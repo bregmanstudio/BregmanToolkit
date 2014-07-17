@@ -1,8 +1,7 @@
 BregmanToolkit
 ==============
 
-Audio and Music Analysis and Synthesis in Python
-
+Audio and Music Analysis and Synthesis in Python<br />
 Author: Michael A. Casey, (C) 2010-2014
 
 Dartmouth College, Hanover, NH, USA
