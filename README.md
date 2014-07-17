@@ -2,8 +2,7 @@ BregmanToolkit
 ==============
 <p>
 Audio and Music Analysis and Synthesis in Python<br />
-Author: Michael A. Casey, (C) 2010-2014<br />
-Dartmouth College, Hanover, NH, USA<br />
+2010-2014, Michael A. Casey, Dartmouth College, Hanover, NH, USA<br />
 </p>
 <p>
 MODULES:
