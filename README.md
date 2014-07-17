@@ -5,12 +5,12 @@ Audio and Music Analysis and Synthesis in Python<br />
 2010-2014, Michael A. Casey, Dartmouth College, Hanover, NH, USA<br />
 </p>
 <p>
-MODULES:
+Bregman modules:
 <ul>
 <li>features - collection of time-frequency audio features as numpy arrays</li>
 <li>distance - similarity metrics for feature arrays</li>
 <li>psychoacoustics - dissonance functions</li>
-<li>test signal - audio test signal synthesis</li>
+<li>testsignal - audio test signal synthesis</li>
 <li>tuning - musical tuning systems</li>
 </ul>
 </p>
