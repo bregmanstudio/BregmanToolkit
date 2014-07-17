@@ -10,6 +10,7 @@ MODULES:
 <li>features - collection of time-frequency audio features as numpy arrays</li>
 <li>distance - similarity metrics for feature arrays</li>
 <li>psychoacoustics - dissonance functions</li>
+<li>test signal - audio test signal synthesis</li>
 <li>tuning - musical tuning systems</li>
 </ul>
 </p>
