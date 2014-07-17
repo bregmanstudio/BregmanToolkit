@@ -1,6 +1,6 @@
 BregmanToolkit
 ==============
-
+<pre>
 Audio and Music Analysis and Synthesis in Python
 
 Author: Michael A. Casey
@@ -39,3 +39,4 @@ execfile(tuts[0])
 # Separation (using PLCA) built-in tutorial examples
 execfile(tuts[1])
 
+</pre>
