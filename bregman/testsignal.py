@@ -399,7 +399,7 @@ def rhythm(signal_params=None, rhythm_params=None, patterns=None):
         ns_par['cf'] = cf
         ns_par['bw'] = bw
         ns_par['num_points'] = 2 * bar_dur 
-        ns_sig.append(amp * noise(ns_par))
+        ns_sig.append(amp * noise(**ns_par))
         ns_env.append( pow( 10, -sp['tc'] * pylab.r_[ 0 : 2 * bar_dur ] / (qtr_dur * dur) ) )
 
     # Music wavetable sequencer
