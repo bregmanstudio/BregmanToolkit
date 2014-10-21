@@ -407,13 +407,13 @@ class Features(object):
         fp = self._check_feature_params()
         num_frames = len(self.x)
         self.STFT = P.zeros((self.nfft/2+1, num_frames), dtype='complex')
-        win = P.ones(self.wfft) if self.window=='rect' else P.hanning(self.wfft)
+        self.win = P.ones(self.wfft) if self.window=='rect' else P.np.sqrt(P.hanning(self.wfft))
         x = P.zeros(self.wfft)
         buf_frames = 0
         for k, nex in enumerate(self.x):
             x = self._shift_insert(x, nex, self.nhop)
             if self.nhop >= self.wfft - k*self.nhop : # align buffer on start of audio
-                self.STFT[:,k-buf_frames]=P.rfft(win*x, self.nfft).T 
+                self.STFT[:,k-buf_frames]=P.rfft(self.win*x, self.nfft).T 
             else:
                 buf_frames+=1
         self.STFT = self.STFT / self.nfft
@@ -545,14 +545,18 @@ class Features(object):
             Phi_hat = P.angle(self.STFT) if Phi_hat is None else Phi_hat
             self.X_hat = X_hat *  P.exp( 1j * Phi_hat )
         if usewin:
-            self.win = P.hanning(self.nfft) 
-            self.win *= 1.0 / ((float(self.nfft)*(self.win**2).sum())/self.nhop)
+            if self.win is None:
+                self.win = P.ones(self.wfft) if self.window=='rect' else P.np.sqrt(P.hanning(self.wfft))
+            if len(self.win) != self.nfft:
+                self.win = P.r_[self.win, P.np.zeros(self.nfft-self.wfft)]
+            if len(self.win) != self.nfft:
+                error.BregmanError("features_base.Features._istftm(): assertion failed len(self.win)==self.nfft")
         else:
             self.win = P.ones(self.nfft)
         if resamp:
             self.win = sig.resample(self.win, int(P.np.round(self.nfft * resamp)))
         fp = self._check_feature_params()
-        self.x_hat = self._overlap_add(P.real(self.nfft * P.irfft(self.X_hat.T)), usewin=usewin, resamp=resamp)
+        self.x_hat = self._overlap_add(P.real(P.irfft(self.X_hat.T)), usewin=usewin, resamp=resamp)
         if self.verbosity:
             print "Extracted iSTFTM->self.x_hat"        
         return self.x_hat
