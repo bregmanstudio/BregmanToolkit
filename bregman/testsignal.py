@@ -49,7 +49,7 @@ def default_signal_params():
         }
     return p
 
-def _check_signal_params(params):
+def _check_signal_params(**params):
     """
     ::
       
@@ -88,7 +88,7 @@ def harmonics(afun=lambda x: pylab.exp(-0.5*x), pfun=lambda x: pylab.rand()*2*py
          pfun   - lambda function of one parameter (harmonic index) returning radian phase offset
          **params - signal_params dict, see default_signal_params()
     """
-    params = _check_signal_params(params)
+    params = _check_signal_params(**params)
     f0 = params['f0']
     x = pylab.zeros(params['num_points'])
     for i in pylab.arange(1, params['num_harmonics']+1):    
@@ -109,7 +109,7 @@ def shepard(num_octaves=7, center_freq=440, band_width=150,**params):
              band_width - how wide a spectral band to use for shepard tones [150]
              **params - signal_params dict, see default_signal_params()
     """
-    params = _check_signal_params(params)
+    params = _check_signal_params(**params)
     f0 = params['f0']
     x = pylab.zeros(params['num_points'])
     shepard_weight = gauss_pdf(20000, center_freq, band_width)
@@ -150,7 +150,7 @@ def devils_staircase(num_octaves=7, num_steps=12, step_size=1, hop=4096,
             **params - signal_params dict, see default_signal_params()
 
     """
-    params = _check_signal_params(params)
+    params = _check_signal_params(**params)
     sr = params['sr']
     f0 = params['f0']
     norm_freq = 2*pylab.pi/sr
@@ -207,7 +207,7 @@ def default_noise_params():
          }
     return p
 
-def _check_noise_params(params):
+def _check_noise_params(**params):
     """
     ::
     
@@ -232,7 +232,7 @@ def noise(noise_fun=pylab.rand,**params):
             params - parameter dict containing sr, and num_harmonics elements [None=default_noise_params()]
             noise_fun - the noise generating function [pylab.rand]
     """
-    params = _check_noise_params(params)
+    params = _check_noise_params(**params)
     noise_dB = params['noise_dB']
     num_harmonics = params['num_harmonics']
     num_points = params['num_points']
@@ -399,7 +399,7 @@ def rhythm(signal_params=None, rhythm_params=None, patterns=None):
         ns_par['cf'] = cf
         ns_par['bw'] = bw
         ns_par['num_points'] = 2 * bar_dur 
-        ns_sig.append(amp * noise(ns_par))
+        ns_sig.append(amp * noise(**ns_par))
         ns_env.append( pow( 10, -sp['tc'] * pylab.r_[ 0 : 2 * bar_dur ] / (qtr_dur * dur) ) )
 
     # Music wavetable sequencer
