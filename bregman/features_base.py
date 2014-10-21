@@ -398,6 +398,7 @@ class Features(object):
         nex = nex.mean(1) if len(nex.shape) > 1 else nex # handle stereo
         x[:-hop] = x[hop:]
         x[-hop::] = nex
+        return x
 
     def _stft(self):
         if not self._have_x:
@@ -406,13 +407,13 @@ class Features(object):
         fp = self._check_feature_params()
         num_frames = len(self.x)
         self.STFT = P.zeros((self.nfft/2+1, num_frames), dtype='complex')
-        # win = P.ones(self.wfft) if self.window=='rect' else P.hanning(self.wfft)
+        win = P.ones(self.wfft) if self.window=='rect' else P.hanning(self.wfft)
         x = P.zeros(self.wfft)
         buf_frames = 0
         for k, nex in enumerate(self.x):
-            self._shift_insert(x, nex, self.nhop)
+            x = self._shift_insert(x, nex, self.nhop)
             if self.nhop >= self.wfft - k*self.nhop : # align buffer on start of audio
-                self.STFT[:,k-buf_frames]=P.rfft(x, self.nfft).T # win*x
+                self.STFT[:,k-buf_frames]=P.rfft(win*x, self.nfft).T 
             else:
                 buf_frames+=1
         self.STFT = self.STFT / self.nfft
@@ -433,6 +434,17 @@ class Features(object):
         U = U - P.np.round(U/(2*P.pi))*2*P.pi
         self.dPhi = U
         return U
+
+
+        # The missing phase reconstruction algorithm in Bregman
+    def _phase_rec(self, Phi_hat_rel):
+        """
+        ::
+         reconstruct relative phases extracted with self._phase_map()
+        """
+        rp,dp = Phi_hat_rel, self.dphi
+        self.Phi_hat = (np.angle(rp)+np.tile(np.atleast_2d(dp).T,rp.shape[1])).cumsum(1)
+        return self.Phi_hat
 
     def _pvoc(self, X_hat, Phi_hat=None, R=None):
         """
@@ -490,7 +502,7 @@ class Features(object):
         t = P.arange(0,n_cols,R)
         tf = t - P.floor(t)
         phs = P.c_[A[:,0], U] 
-        phs += U[:,idx[1]] + dphi
+        phs += U[:,idx[1]] + dphi # Problem, what is idx ?
         Xh = (1-tf)*Xh[:-1] + tf*Xh[1:]
         Xh *= P.exp( 1j * phs)
         self.X_hat = Xh
