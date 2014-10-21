@@ -443,7 +443,7 @@ class Features(object):
          reconstruct relative phases extracted with self._phase_map()
         """
         rp,dp = Phi_hat_rel, self.dphi
-        self.Phi_hat = (P.np.angle(rp)+P.np.tile(P.np.atleast_2d(dp).T,rp.shape[1])).cumsum(1)
+        self.Phi_hat = (rp + P.np.tile(P.np.atleast_2d(dp).T, rp.shape[1])).cumsum(1)
         return self.Phi_hat
 
     def _pvoc(self, X_hat, Phi_hat=None, R=None):
