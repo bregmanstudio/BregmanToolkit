@@ -73,7 +73,7 @@ def sinusoid(**params):
           **params - signal_params dict, see default_signal_params()
 
     """
-    params = _check_signal_params(params)
+    params = _check_signal_params(**params)
     t = pylab.arange(params['num_points'])
     x = pylab.sin( TWO_PI*params['f0']/params['sr'] * t + params['phase_offset'])
     return x
