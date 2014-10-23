@@ -430,7 +430,7 @@ class Features(object):
     def _phase_map(self):
         self.dphi = (2*P.pi * self.nhop * P.arange(self.nfft/2+1)) / self.nfft
         A = P.diff(P.angle(self.STFT),1) # Complete Phase Map
-        U = P.c_[P.angle(self.STFT[:,0]), A - P.matrix(self.dphi).T ]
+        U = P.c_[P.angle(self.STFT[:,0]), A - P.atleast_2d(self.dphi).T ]
         U = U - P.np.round(U/(2*P.pi))*2*P.pi
         self.dPhi = U
         return U
