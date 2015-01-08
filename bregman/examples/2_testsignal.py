@@ -18,7 +18,7 @@ def ex_1a():
     print "Example 1: sinusoid"
     sys.stdout.flush()
     p = default_signal_params()
-    x = sinusoid(p)
+    x = sinusoid(**p)
     play(x/x.max())
 
 def ex_2a():
@@ -29,7 +29,7 @@ def ex_2a():
     sys.stdout.flush()
     p = default_signal_params()
     p['num_harmonics'] = 7
-    x = harmonics(p)
+    x = harmonics(**p)
     play(x)
 
 def ex_3a():
@@ -43,7 +43,7 @@ def ex_3a():
     p['f0']=27.5
     x = shepard(p)
     p['f0']=27.5*2**(-0.5)
-    y = shepard(p)
+    y = shepard(**p)
     play(r_[x,y])
 
 def ex_3b():
@@ -55,9 +55,13 @@ def ex_3b():
     p = default_signal_params()
     p['num_harmonics']=7
     p['f0']=27.5
-    x = devils_staircase(p, num_octaves=5, num_steps=48, step_size=0.25, hop=4096)
+    p['num_octaves'] = 5
+    p['num_steps'] = 48
+    p['step_size'] = .25
+    p['hop'] = 4096
+    x = devils_staircase(**p)
     p['f0']=27.5*2**(-0.5)
-    y = devils_staircase(p, num_octaves=5, num_steps=48, step_size=0.25, hop=4096)
+    y = devils_staircase(**p)
     # play two gliding tones 1/2 octave apart
     play(0.5 * (x + y))
 
@@ -68,7 +72,7 @@ def ex_4a():
     print "Example 4: noise band, bandwidth-expanded sinusoid"
     sys.stdout.flush()
     p = default_noise_params()
-    x = noise(p)
+    x = noise(**p)
     play(x)
     
 def ex_5a():
