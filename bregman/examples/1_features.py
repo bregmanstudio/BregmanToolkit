@@ -69,7 +69,7 @@ def ex_1c(x):
     Window parameters set for trade-off between narrow and wide band analysis
     (harmonics + formants)
     """
-    F = LinearFrequencySpectrum(x, nfft=1024, wfft=512, nhop=512)
+    F = LinearFrequencySpectrum(x, nfft=1024, wfft=512, nhop=510)
     F.feature_plot(dbscale=True, normalize=True)
     title('Medium-band magnitude short-time Fourier transform (STFT)')
 
