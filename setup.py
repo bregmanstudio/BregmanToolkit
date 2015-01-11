@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 import glob
+import os.path
 
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 for scheme in INSTALL_SCHEMES.values():
     scheme['data'] = scheme['purelib'] 
+
+sep = os.path.sep
 
 setup(name='Bregman',
       version='0.11-11.14',
@@ -17,6 +20,6 @@ setup(name='Bregman',
       license='GPL v. 2.0 or higher',
       platforms=['OS X (any)', 'Linux (any)', 'Windows (any)'],
       packages=['bregman'],
-      data_files=[('bregman/audio/', glob.glob('bregman/audio/*.wav')),
-                  ('bregman/examples/', glob.glob('bregman/examples/*.py'))]
+      data_files=[('bregman'+sep+'audio'+sep, glob.glob('bregman'+sep+'audio'+sep+'*.wav')),
+                  ('bregman'+sep+'examples'+sep, glob.glob('bregman'+sep+'examples'+sep+'*.py'))]
      )
