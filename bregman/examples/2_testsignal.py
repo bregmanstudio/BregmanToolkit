@@ -41,7 +41,7 @@ def ex_3a():
     p = default_signal_params()
     p['num_harmonics']=7
     p['f0']=27.5
-    x = shepard(p)
+    x = shepard(**p)
     p['f0']=27.5*2**(-0.5)
     y = shepard(**p)
     play(r_[x,y])
