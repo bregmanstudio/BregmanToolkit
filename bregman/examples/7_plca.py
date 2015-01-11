@@ -1,4 +1,4 @@
-# Assignment 4, Parts 1-4 informative, Part 5, graded.
+# PLCA Example
 import os
 import os.path
 import bregman
