@@ -191,7 +191,7 @@ def mds(D, n=0, tol=0.9):
     A = -0.5 * D * D
     H = N.lib.twodim_base.eye(m) - 1./m; # idempotent H*H=H
     B = N.dot(N.dot(H, A), H)
-    print B
+#    print B
     # this should be a diagonal decomposition because B is symmetric 
     S, U = N.linalg.linalg.eig(B)
     idx = N.argsort(S)[::-1]
