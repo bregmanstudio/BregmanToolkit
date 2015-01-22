@@ -12,11 +12,108 @@ http://creativecommons.org/licenses/by-nc/4.0/
 
 import pylab as P
 import numpy as np
-import glob
-import pdb
-import bregman.distance
+import glob, sys, pdb
+import bregman
+
+try:
+    import music21 as m21
+except:
+    print "Warning: music21 not installed, only loading .ascii files supported"
 
 pc_labels = np.tile(['C','C#','D','Eb','E','F','F#','G','G#','A','Bb','B'],13)
+
+def _report(reportStr):
+    print reportStr
+    sys.stdout.flush()
+
+def extract_audio_chroma(flist, nSecs = 10, nSamps = 6):
+    """
+    Given a list of WAV files, extract chromagram features and stack
+    Options:
+        nSecs - how many seconds each sample lasts
+        nSamps - how many samples to take from each file        
+    """
+    F = []
+    for fname in flist:
+        x,sr,fmt = bregman.sound.wavread(fname)
+        for _ in range(nSamps):
+            start = np.random.randint(x.shape[0] - sr*nSecs) # 10s segments    
+            if len(x.shape) > 1: # Check if stereo
+                x = x.mean(1) # Convert stereo to MONO
+            y = x[start:start+nSecs*sr]
+            chrom = bregman.features.Chromagram(y, nfft=8192, wfft=8192, nhop=sr/20)
+            X = chrom.X.T.reshape(nSecs,-1,12).mean(0).T # 1s averaging
+            F.append(X)
+    return np.hstack(F)
+
+def load_corpus(corpus=None, idx=None, win_len=1, sample_len=0):
+    """
+    Load items from a corpus, use given idx slice argument to select subsets
+    Inputs:
+         corpus - list of symbolic music files (xml, mid, krn, etc...) 
+            idx - slice argument giving range of works [None] (all)
+        win_len - num tactus beats to integrate [1] (no integration)
+     sample_len - number of sampled windows per work [0] (all)
+    """
+    if corpus is None or (type(corpus) is str and corpus is not ""):
+        corpus_path=glob.glob(m21.__path__[0]+'/corpus/bach/bwv8[4-9][0-9]')
+        corpus = []
+        for w in corpus_path:
+            for v in sorted(glob.glob(w+'/*')):
+                corpus.append(v)
+    corpus.sort()
+    print idx
+    _report("slicing work list...")
+    idx = slice(0,len(corpus)) if idx is None else idx    
+    _report("parsing corpus...")
+    corpusList = [m21.converter.parse(w) for w in corpus[idx]]
+    _report("extracting notes...")
+    corpusNotes = [_extract_notes_positions_and_durations(w) for w in corpusList]
+    _report("converting notes to matrices...")
+    corpusMtx = [_sample_mtx(_convert_notes_to_matrix(n), win_len, sample_len) for n in corpusNotes]
+    _report("done.")
+    return corpusMtx
+
+def _sample_mtx(M, win_len, sample_len):
+    if win_len>1:
+        M = win_mtx(M, win_len)
+    if sample_len>0:
+        M = M[:,np.random.permutation(M.shape[1])[:sample_len]]
+    return M
+
+def _extract_notes_positions_and_durations(work):
+    """
+    Return note positions and durations
+    """
+    notes = np.array([(nn.midi,n.offset,n.quarterLength) for n in work.flat.notes for nn in n.pitches])
+    notes = notes[np.where(notes[:,2])]
+    return notes
+
+#edit to include manual length and smallest duration
+# start_t is start time in quarter notes
+# duration is duration in quarter notes
+def _convert_notes_to_matrix(notes, start_t=0, duration=128): # start_t and duration offset in quarters
+    """
+    Given a list of (midi,quarterLength) tuples, collate all notes per tactus tick (smallest duration) and
+    make piano-roll matrix
+    """
+    smallest_dur = _calc_smallest_dur(notes) #manually calculate if none given
+    start_times = np.array(notes)[:,1] # 
+    time_idx = (start_times >= start_t) & (start_times < start_t + duration)
+    notes = np.array(notes).copy()[time_idx]
+    t0 = notes[0,1]
+    N = notes[-1,1] - t0
+    d = notes[-1,2]
+    Nc = (N+d) / smallest_dur
+    mtx = np.zeros((128,Nc))
+    for n in notes:
+        mtx[n[0],(n[1]-t0)/smallest_dur:(n[1]-t0+n[2])/smallest_dur]=1
+    return mtx
+
+#calculate smallest interval
+def _calc_smallest_dur(notes):
+    tick = np.array(notes)[:,2].min()
+    return tick
 
 def load_wtc(idx=None, win_len=1, sample_len=0):
     """
@@ -85,7 +182,7 @@ def dissonance_mtx(A):
     D = np.zeros((n,n))
     for i,a in enumerate(A.T[:-1]):
         for j,b in enumerate(A.T[i+1:]):
-            D[i,j] = diss_fun(np.expand_dims(a+b,1))
+            D[i,j] = dissonance_fun(np.expand_dims(a+b,1))
 
 def dissonance_fun(A):
     """
