@@ -38,7 +38,7 @@ def extract_audio_chroma(flist, nSecs = 10, nSamps = 6):
         x,sr,fmt = bregman.sound.wavread(fname)
         for _ in range(nSamps):
             start = np.random.randint(x.shape[0] - sr*nSecs) # 10s segments    
-            y = x[start:start+nSecs*sr].mean(1)
+            y = x[start:start+nSecs*sr][:,np.newaxis].mean(1)
             chrom = bregman.features.Chromagram(y, nfft=8192, wfft=8192, nhop=sr/20)
             X = chrom.X.T.reshape(nSecs,-1,12).mean(0).T # 1s averaging
             F.append(X)
