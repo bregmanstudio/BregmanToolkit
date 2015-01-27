@@ -71,6 +71,7 @@ from bregman.suite import *
 from pylab import *
 import os
 import os.path
+import pdb
 
 # Global feature settings
 p = Features.default_params()
@@ -80,6 +81,7 @@ p['nhop']=2048
 def play_components(X_hat, F, x=None):
     # play individual separated feature spectrograms as audio
     # separated spectrograms are stored in a list
+    pdb.set_trace()
     for Xh in X_hat:
         x_hat = F.inverse(Xh) # invert to audio to F.x_hat
         x = x_hat if x is None else x
@@ -87,7 +89,7 @@ def play_components(X_hat, F, x=None):
         xn = min(len(x), len(x_hat))
         x_orig = 0.1*atleast_1d(x[:xn]).T
         x_hat = atleast_1d(x_hat[:xn] / (x_hat[:xn].max() + 0.01))
-        play(c_[x_orig, x_hat].T, F.feature_params['sample_rate'])
+        play(c_[x_orig, balance_signal(x_hat)].T, F.feature_params['sample_rate'])
 
 def invert_component(cls, w, z, h):
     w = atleast_2d(w)
