@@ -36,10 +36,10 @@ def extract_audio_chroma(flist, nSecs = 10, nSamps = 6):
     F = []
     for fname in flist:
         x,sr,fmt = bregman.sound.wavread(fname)
+        if len(x.shape) > 1: # Check if stereo
+            x = x.mean(1) # Convert stereo to MONO
         for _ in range(nSamps):
             start = np.random.randint(x.shape[0] - sr*nSecs) # 10s segments    
-            if len(x.shape) > 1: # Check if stereo
-                x = x.mean(1) # Convert stereo to MONO
             y = x[start:start+nSecs*sr]
             chrom = bregman.features.Chromagram(y, nfft=8192, wfft=8192, nhop=sr/20)
             X = chrom.X.T.reshape(nSecs,-1,12).mean(0).T # 1s averaging
