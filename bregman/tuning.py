@@ -171,11 +171,13 @@ class TuningSystem():
         p = default_signal_params()
         p['num_harmonics'] = num_harmonics
         p['sr'] = sr
+        p['num_points']=int(round(dur*sr))
+        p.pop('f0')
         x = []
-        num_samples = int(round(dur*sr))
+        num_samples = p['num_points']
         ramp = pylab.r_[pylab.array(pylab.linspace(0,1,100)), pylab.linspace(1,0,num_samples-100)]
         for rat in tuning:
-            x = pylab.r_[x, ramp*harmonics(p, f0*rat, num_points=int(round(dur*sr)))]
+            x = pylab.r_[x, ramp*harmonics(f0=f0*rat,**p)]
         return x
 
     def to_scale_intervals(self, tuning, interval=0, f0=440., num_harmonics=6, dur=0.5, sr = 44100.):
