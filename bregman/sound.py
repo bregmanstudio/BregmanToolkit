@@ -185,7 +185,6 @@ sound_options = {"soundplayer": "open"}
 
 # Bregman's own play_snd(...) function
 if os.name=='posix':
-    dummy_path = os.environ['HOME']
     def play_snd(data, sample_rate=44100):
         """
         ::
@@ -204,7 +203,6 @@ if os.name=='posix':
         return res            
 else:  
     import winsound
-    dummy_path = os.environ['HOMEPATH']
     def play_snd(data, sample_rate=44100):            
         """
         ::
@@ -217,7 +215,7 @@ else:
         if  m > 1.0: data /= m
         _wav_write(data, AUDIO_TMP_FILE, sample_rate)
         winsound.PlaySound(AUDIO_TMP_FILE, winsound.SND_FILENAME|winsound.SND_ASYNC)
-        
+
 # Emulate the play(), wavread, and wavwrite functions from audiolab
 if not HAVE_AUDIOLAB:
     def play(data, fs=44100):
