@@ -184,8 +184,7 @@ AUDIO_TMP_FILE = ".tmp.wav"
 sound_options = {"soundplayer": "open"}
 
 # Bregman's own play_snd(...) function
-try: # OSX / Linux   
-    dummy_path = os.environ['HOME']
+if os.name=='posix':
     def play_snd(data, sample_rate=44100):
         """
         ::
@@ -202,9 +201,8 @@ try: # OSX / Linux
         if res:
             raise error.BregmanError("Error in "+command[0])
         return res            
-except: # Windows     
+else:  
     import winsound
-    dummy_path = os.environ['HOMEPATH']
     def play_snd(data, sample_rate=44100):            
         """
         ::
