@@ -7,10 +7,10 @@ import scipy.signal
 
 class TimeSpan(object):   
     def __init__(self, start_time=None, end_time=None, duration=None):
-        if start_time==None:
+        if start_time is None:
             raise ValueError("start_time must be provided")
         self.start_time=float(start_time)
-        if end_time==None and start_time==None:
+        if end_time is None and start_time is None:
             raise ValueError("One of end_time or duration must be supplied")                
         self.duration = float(end_time) - self.start_time if duration is None else float(duration)
         self.end_time = self.start_time + float(duration) if end_time is None else float(end_time)

@@ -223,9 +223,9 @@ def _dissonance_fun(freqs, amps=None, params=None):
         default params = (-3.51, -5.75, 0.0207, 19.96, 5, -5, 0.24)
         default amps, use 1 as amplitude for all partials.
     """
-    if params == None: params = (-3.51, -5.75, 0.0207, 19.96, 5, -5, 0.24)
+    if params is None: params = (-3.51, -5.75, 0.0207, 19.96, 5, -5, 0.24)
     b1, b2, s1, s2, c1, c2, Dstar  = params
-    if amps == None: amps = [1]*len(freqs)
+    if amps is None: amps = [1]*len(freqs)
     f = np.array(freqs)
     a = np.array(amps)
     idx = np.argsort(f)
