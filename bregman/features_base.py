@@ -538,7 +538,7 @@ class Features(object):
         """
         if not self._have_stft:
                 return None
-        X_hat = P.np.abs(self.STFT) if X_hat is None else P.np.abs(X_hat)
+        X_hat = self.X if X_hat is None else P.np.abs(X_hat)
         if pvoc:
             self._pvoc(X_hat, Phi_hat, pvoc)
         else:
@@ -836,13 +836,9 @@ class Features(object):
             betaZ # Entropic prior on Z
             betaH # Entropic prior on H
         """
-        x = kwargs.get('x',None)
-        
+        x = kwargs.get('x',None)        
         self.w,self.z,self.h,norm,recon,logprob = cls.analyze(self.X, n, **kwargs)
-        if cls==plca.SIPLCA2:
-            self.X_hat = [self.invert_component(cls, self.w[:,k,:], self.z[k], self.h[k,:,:]) for k in range(len(self.z))]
-        else:
-            self.X_hat = [self.invert_component(cls, self.w[:,:,k], self.z[k], self.h[k,:]) for k in range(len(self.z))]
+        self.X_hat = self.invert_components(cls, self.w, self.z, self.h)
         if play_flag:
             self.normalize_components()
             self.play_components(x)
@@ -862,8 +858,10 @@ class Features(object):
         """
         if cls==plca.SIPLCA2:
             X_hat = [self.invert_component(cls, w[:,k,:], z[k], h[k,:,:]) for k in range(len(z))]
-        else:
+        elif cls==plca.SIPLCA:
             X_hat = [self.invert_component(cls, w[:,:,k], z[k], h[k,:]) for k in range(len(z))]
+        else:
+            X_hat = [self.invert_component(cls, w[:,k], z[k], h[k,:]) for k in range(len(z))]
         return X_hat
 
     def normalize_components(self, X_hat=None):
