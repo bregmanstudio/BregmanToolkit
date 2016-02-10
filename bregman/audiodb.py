@@ -333,7 +333,7 @@ class adb:
 
             Sort search results by stripping out repeated results and placing in increasing order of distance.
         """
-        if not res or res==None:
+        if not res or res is None:
             return None
         a,b,c,d = zip(*res)
         u = adb.uniquify(a)
