@@ -1,3 +1,11 @@
+from __future__ import print_function
+# AudioDB libraries
+import glob
+import error
+import pylab
+import features
+from scipy.signal import resample
+
 # AudioDB - routines for audio database I/O, searching, and manipulation
 # Bregman - python toolkit for music information retrieval
 
@@ -7,19 +15,11 @@ __copyright__ = "Copyright (C) 2010  Michael Casey, Dartmouth College, All Right
 __license__ = "GPL Version 2.0 or Higher"
 __email__ = 'mcasey@dartmouth.edu'
 
-
-# AudioDB libraries
-import glob
-import error
-import pylab
-import features
-
 try:
     import pyadb
 except ImportError:
     pass
-from scipy.signal import resample
-import pdb
+
 
 class adb:
     """
@@ -44,7 +44,7 @@ class adb:
             data = data.reshape(-1,dim)
             return data
         except IOError:
-            print "IOError: Cannot open %s for reading." %(fname)
+            print ("IOError: Cannot open %s for reading." %(fname))
             raise IOError
         finally:
             if fd:
@@ -65,7 +65,7 @@ class adb:
             data = pylab.np.array(data,dtype=dtype)
             data.tofile(fd)
         except IOError:
-            print "IOError: Cannot open %s for writing." %(fname)
+            print ("IOError: Cannot open %s for writing." %(fname))
             raise IOError
         finally:
             if fd:
@@ -288,8 +288,8 @@ class adb:
             returns sorted list of results
         """
         if not db.configCheck():
-            print "Failed configCheck in query spec."
-            print db.configQuery
+            print ("Failed configCheck in query spec.")
+            print (db.configQuery)
             return None
         res = db.query(Key)
         res_resorted = adb.sort_search_result(res.rawData)
@@ -304,8 +304,8 @@ class adb:
             Returns search results for query resampled over a range of tempos.
         """
         if not db.configCheck():
-            print "Failed configCheck in query spec."
-            print db.configQuery
+            print ("Failed configCheck in query spec.")
+            print (db.configQuery)
             return None
         prop = 1./tempo # the proportion of original samples required for new tempo
         qconf = db.configQuery.copy()
@@ -388,7 +388,7 @@ class adb:
         """
         db = adb.get(dbName, "w")
         if not db:
-            print "Could not open database: %s" %dbName
+            print ("Could not open database: %s" %dbName)
             return False    
         del db # commit the changes by closing the header
         db = adb.get(dbName) # re-open for writing data
@@ -397,7 +397,7 @@ class adb:
         for a, i in enumerate(fileList):
             if progress:
                 progress((a+0.5)/float(len(fileList)),i) # frac, fname
-            print "Processing file: %s" %i
+            print ("Processing file: %s" %i)
             F = features.Features(i)            
             if chroma: F.feature_params['feature']='chroma'
             elif mfcc: F.feature_params['feature']='mfcc'
@@ -426,12 +426,12 @@ class adb:
         db = adb.get(dbName,"w")
 
         if not db:
-            print "Could not open database: %s" %dbName
+            print ("Could not open database: %s" %dbName)
             return False    
         # FIXME: need to test if KEY (%i) already exists in db
         # Support for removing keys via include/exclude keys
         for feat,pwr,key in zip(featureList, powerList, keyList):
-            print "Processing features: %s" %key
+            print ("Processing features: %s" %key)
             F = adb.read(feat)
             P = adb.read(pwr)
             a,b = F.shape
@@ -442,14 +442,14 @@ class adb:
             if(len(P.shape)==1):
                 c = P.shape[0]
             else:
-                print "Error: powers have incorrect shape={0}".format(P.shape)
+                print ("Error: powers have incorrect shape={0}".format(P.shape))
                 return None
 
             if a != c:
                 F=F.T
                 a,b = F.shape
                 if a != c:
-                    print "Error: powers and features different lengths powers={0}*, features={1},{2}*".format(c, a, b)
+                    print ("Error: powers and features different lengths powers={0}*, features={1},{2}*".format(c, a, b))
                     return None
             # raw features, power in Bels, and key
             if undo_log10:
