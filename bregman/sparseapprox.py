@@ -40,7 +40,7 @@ class SparseApproxSpectrum(object):
         data = data.reshape(data.shape[0], -1)
         if len(data)>self.max_samples:
             data = np.random.permutation(data)[:self.max_samples]
-        print(data.shape)
+        print((data.shape))
         if self.standardize:
             self.mn = np.mean(data, axis=0) 
             self.std = np.std(data, axis=0)

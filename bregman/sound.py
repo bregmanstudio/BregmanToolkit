@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import pdb
 import os
 import numpy
@@ -109,9 +109,9 @@ class WavOpen:
             raise IndexError
         self.sound.setpos(k * self.n)
         self.index = k * self.n
-        return self.next()
+        return next(self)
 
-    def next(self):
+    def __next__(self):
         num_to_read = self.n if self.index < (
             self.num_frames - self.n + 1) else (self.num_frames - self.index)
         if num_to_read > 0:

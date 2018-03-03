@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import numpy as np
 import pylab as pl
 import scipy.signal

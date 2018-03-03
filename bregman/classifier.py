@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import numpy as N
 
 
@@ -117,8 +117,8 @@ class KMeans(Classifier):
             else:
                 empty_classes.append(k)
         if len(empty_classes):
-            self.M = self.M[N.setdiff1d(range(self.num_classes), empty_classes), :]
-            old_means = old_means[N.setdiff1d(range(self.num_classes), empty_classes), :]
+            self.M = self.M[N.setdiff1d(list(range(self.num_classes)), empty_classes), :]
+            old_means = old_means[N.setdiff1d(list(range(self.num_classes)), empty_classes), :]
             self.num_classes -= len(empty_classes)
         sse = ((old_means - self.M)**2).sum()
         return sse

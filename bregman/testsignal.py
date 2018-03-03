@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import pylab
 import scipy.signal
 # testsignal.py - generate some multi-dimensional test signals
@@ -334,9 +334,9 @@ def default_rhythm_params():
 
 def _check_rhythm_params(signal_params, rhythm_params, patterns):
     s, r, p = default_rhythm_params()
-    for k in s.keys():  # check for missing keys
+    for k in list(s.keys()):  # check for missing keys
         signal_params[k] = signal_params.get(k, s[k])
-    for k in r.keys():  # check for missing keys
+    for k in list(r.keys()):  # check for missing keys
         rhythm_params[k] = rhythm_params.get(k, r[k])
     num_timbres = len(signal_params['cf'])
     if not (num_timbres == len(signal_params['bw']) == len(signal_params['dur']) == len(patterns)):

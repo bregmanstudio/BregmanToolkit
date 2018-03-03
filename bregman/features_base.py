@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import pylab as P
 import glob
 import pdb
@@ -200,7 +200,7 @@ class Features(object):
     def _check_feature_params(self, feature_params=None):
         self.feature_params = feature_params if feature_params is not None else self.feature_params
         fp = self.default_params()
-        for k in fp.keys():
+        for k in list(fp.keys()):
             self.feature_params[k] = self.feature_params.get(k, fp[k])
             self.__setattr__(k, self.feature_params[k])
         return self.feature_params
@@ -371,14 +371,14 @@ class Features(object):
             and bandwidths of linear and log-scaled frequency axes for a constant-Q transform.
         """
         fp = self.feature_params
-        bpo = float(self.nbpo)  # Bands per octave
-        self._fftN = float(self.nfft)
-        hi_edge = float(self.hi)
-        lo_edge = float(self.lo)
+        bpo = int(self.nbpo)  # Bands per octave
+        self._fftN = int(self.nfft)
+        hi_edge = int(self.hi)
+        lo_edge = int(self.lo)
         f_ratio = 2.0**(1.0 / bpo)  # Constant-Q bandwidth
-        self._cqtN = float(P.floor(P.log(hi_edge / lo_edge) / P.log(f_ratio)))
+        self._cqtN = int(P.floor(P.log(hi_edge / lo_edge) / P.log(f_ratio)))
         self._dctN = self._cqtN
-        self._outN = float(self.nfft / 2 + 1)
+        self._outN = int(self.nfft / 2 + 1)
         if self._cqtN < 1:
             print ("warning: cqtN not positive definite")
         mxnorm = P.empty(self._cqtN)  # Normalization coefficients
@@ -441,7 +441,7 @@ class Features(object):
             return False
         fp = self._check_feature_params()
         num_frames = len(self.x)
-        self.STFT = P.zeros((self.nfft / 2 + 1, num_frames), dtype='complex')
+        self.STFT = P.zeros((self.nfft // 2 + 1, num_frames), dtype='complex')
         self.win = P.ones(self.wfft) if self.window == 'rect' else P.np.sqrt(
             P.hanning(self.wfft))
         x = P.zeros(self.wfft)

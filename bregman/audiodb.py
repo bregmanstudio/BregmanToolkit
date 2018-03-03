@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 # AudioDB libraries
 import glob
 import pylab
@@ -335,7 +335,7 @@ class adb:
         """
         if not res or res==None:
             return None
-        a,b,c,d = zip(*res)
+        a,b,c,d = list(zip(*res))
         u = adb.uniquify(a)
         i = 0
         j = 0

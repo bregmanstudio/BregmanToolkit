@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 # Bregman - python toolkit for music information retrieval
 
 __version__ = '1.0'
