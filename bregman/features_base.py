@@ -1,12 +1,12 @@
 from __future__ import print_function
 import pylab as P
-import error
 import glob
-import plca
-from sound import *
-from audiodb import *
 import pdb
 import scipy.signal as sig
+from . import error
+from . import plca
+from .sound import *
+from .audiodb import *
 
 PVOC_VAR = 0.0
 

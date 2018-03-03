@@ -1,10 +1,10 @@
 from __future__ import print_function
 # AudioDB libraries
 import glob
-import error
 import pylab
-import features
 from scipy.signal import resample
+from . import error
+from . import features
 
 # AudioDB - routines for audio database I/O, searching, and manipulation
 # Bregman - python toolkit for music information retrieval

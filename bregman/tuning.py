@@ -11,11 +11,11 @@ __license__ = "GPL Version 2.0 or Higher"
 __email__ = 'mcasey@dartmouth.edu'
 
 
-from fractions import Fraction
-from psychoacoustics import dissonance_fun
-from testsignal import default_signal_params, harmonics
 import pylab
 import pdb
+from fractions import Fraction
+from .psychoacoustics import dissonance_fun
+from .testsignal import default_signal_params, harmonics
 
 class TuningSystem():
     """

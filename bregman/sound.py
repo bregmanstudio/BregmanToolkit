@@ -1,9 +1,9 @@
 from __future__ import print_function
+import pdb
 import os
 import numpy
 import subprocess
-import error
-import pdb
+from . import error
 # sound.py - audio file I/O and play functionality
 # Bregman - python toolkit for music information retrieval
 

@@ -1,10 +1,10 @@
 from __future__ import print_function
-import classifier
-import features
-import sound
 import numpy as np
 import pylab as pl
 import scipy.signal
+from . import classifier
+from . import features
+from . import sound
 
 
 class TimeSpan(object):

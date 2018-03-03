@@ -1,13 +1,12 @@
 from __future__ import print_function
+import pdb
 import pylab as P
 import numpy as np
-import error
 import glob
-import plca
-from sound import *
-from audiodb import *
-import pdb
-from features_base import Features, feature_plot, feature_scale
+from .import plca
+from .sound import *
+from .audiodb import *
+from .features_base import Features, feature_plot, feature_scale
 
 
 # features.py - feature extraction and plotting
