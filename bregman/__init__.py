@@ -6,21 +6,22 @@ __copyright__ = "Copyright (C) 2010  Michael Casey, Dartmouth College, All Right
 __license__ = "GPL Version 2.0 or Higher"
 __email__ = 'mcasey@dartmouth.edu'
 
-__all__ = ["features", "segment", "audiodb", "testsignal", "psychoacoustics", "tuning", "sound", "plca", "distance", "classifier", "error", "beat", "suite"]
+__all__ = ["features", "segment", "audiodb", "testsignal", "psychoacoustics", "tuning", "sound", "plca", "distance", "classifier", "error", "beat", "suite", "sparseapprox"]
 
 # import the bregman modules
-import suite
-import features
-import segment
-import audiodb
-import testsignal
-import psychoacoustics
-import tuning
-import sound
-import plca
-import distance
-import classifier
-import error
-import beat
+from . import suite
+from . import features
+from . import segment
+from . import audiodb
+from . import testsignal
+from . import psychoacoustics
+from . import tuning
+from . import sound
+from . import plca
+from . import distance
+from . import classifier
+from . import error
+from . import beat
+from . import sparseapprox
 
 

@@ -25,7 +25,7 @@ def beat_track(x, feature=LogFrequencySpectrum, **kwargs):
     frame_rate = F.sample_rate / float(F.nhop)
     D = diff(F.X, axis=1)
     D[where(D < 0)] = 0
-    tempos = range(40, 200, 4)
+    tempos = list(range(40, 200, 4))
     z = zeros((len(tempos), D.shape[0]))
     for i, bpm in enumerate(tempos):  # loop over tempos to test
         t = int(round(frame_rate * 60. / bpm))  # num frames per beat

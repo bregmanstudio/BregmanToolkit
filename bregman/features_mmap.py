@@ -1,3 +1,4 @@
+
 # Support for large analysis files, up to 2Gb, using mmap'd arrays
 
 
@@ -19,7 +20,7 @@ def process_array(fp):
     r,c = fp.shape
     mem_rows =_MEM_CHUNK / c
     for m in arange(0, r, mem_rows):
-        print fp[m:m+mem_rows,:]
+        print (fp[m:m+mem_rows,:])
 
 def foo(filename='/tmp/foo', test_shape=(100000,128) ):
     fp1 = new_mmapped_array(filename, shape=test_shape)

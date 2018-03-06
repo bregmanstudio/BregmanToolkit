@@ -1,3 +1,14 @@
+
+import pdb
+import pylab as P
+import numpy as np
+import glob
+from .import plca
+from .sound import *
+from .audiodb import *
+from .features_base import Features, feature_plot, feature_scale
+
+
 # features.py - feature extraction and plotting
 # Bregman - music information retrieval toolkit
 """
@@ -84,19 +95,11 @@ __copyright__ = "Copyright (C) 2010  Michael Casey, Dartmouth College, All Right
 __license__ = "GPL Version 2.0 or Higher"
 __email__ = 'mcasey@dartmouth.edu'
 
-import pylab as P
-import numpy as np
-import error
-import glob
-import plca
-from sound import *
-from audiodb import *
-import pdb
-from features_base import Features, feature_plot, feature_scale
-
 # All features exposed as separate classes
 
 # Frequency Domain
+
+
 class LinearFrequencySpectrum(Features):
     """
     Linear-frequency spectrum, the short-time Fourier transform.
@@ -108,9 +111,11 @@ class LinearFrequencySpectrum(Features):
         wfft = 8192  # default window size
         nhop = 4410  # default hop size
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='stft'
+        feature_params['feature'] = 'stft'
         Features.__init__(self, arg, feature_params)
+
 
 class LogFrequencySpectrum(Features):
     """
@@ -118,9 +123,11 @@ class LogFrequencySpectrum(Features):
     ::
         feature_params['feature']='cqft'
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='cqft'
+        feature_params['feature'] = 'cqft'
         Features.__init__(self, arg, feature_params)
+
 
 class MelFrequencySpectrum(Features):
     """
@@ -128,9 +135,11 @@ class MelFrequencySpectrum(Features):
     ::
         feature_params['feature']='cqft'
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='cqft'    
+        feature_params['feature'] = 'cqft'
         Features.__init__(self, arg, feature_params)
+
 
 class Chromagram(Features):
     """"
@@ -138,9 +147,11 @@ class Chromagram(Features):
     ::
         feature_params['feature']='chroma'    
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='chroma'    
+        feature_params['feature'] = 'chroma'
         Features.__init__(self, arg, feature_params)
+
 
 class HighQuefrencyChromagram(Features):
     """"
@@ -148,20 +159,22 @@ class HighQuefrencyChromagram(Features):
     ::
         feature_params['feature']='hchroma'    
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='hchroma'    
+        feature_params['feature'] = 'hchroma'
         Features.__init__(self, arg, feature_params)
 
 # Cepstral Domain
-#class LinearFrequencyCepstrum(Features):
+# class LinearFrequencyCepstrum(Features):
 #    """
 #    Linear-frequency cepstrum
 #    ::
-#        feature_params['feature']='lcqft'    
+#        feature_params['feature']='lcqft'
 #    """
 #    def __init__(self, arg=None, **feature_params):
-#        feature_params['feature']='lcqft'    
+#        feature_params['feature']='lcqft'
 #        Features.__init__(self, arg, feature_params)
+
 
 class LogFrequencyCepstrum(Features):
     """
@@ -169,9 +182,11 @@ class LogFrequencyCepstrum(Features):
     ::
         feature_params['feature']='mfcc'    
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='mfcc'    
+        feature_params['feature'] = 'mfcc'
         Features.__init__(self, arg, feature_params)
+
 
 class MelFrequencyCepstrum(Features):
     """
@@ -179,8 +194,9 @@ class MelFrequencyCepstrum(Features):
     ::
         feature_params['feature']='mfcc'    
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='mfcc'    
+        feature_params['feature'] = 'mfcc'
         Features.__init__(self, arg, feature_params)
 
 # Quefrency-Domain Liftered
@@ -192,15 +208,18 @@ class MelFrequencyCepstrum(Features):
 #     def __init__(self, arg=None, **feature_params):
 #         Features.__init__(self, arg, feature_params)
 
+
 class LowQuefrencyLogFrequencySpectrum(Features):
     """
     Low-Quefrency Log Frequency Spectrum
     ::
         feature_params['feature']='lcqft'            
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='lcqft'            
+        feature_params['feature'] = 'lcqft'
         Features.__init__(self, arg, feature_params)
+
 
 class HighQuefrencyLogFrequencySpectrum(Features):
     """
@@ -208,9 +227,11 @@ class HighQuefrencyLogFrequencySpectrum(Features):
     ::
         feature_params['feature']='hcqft'                    
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='hcqft'            
+        feature_params['feature'] = 'hcqft'
         Features.__init__(self, arg, feature_params)
+
 
 class LowQuefrencyMelSpectrum(Features):
     """
@@ -218,9 +239,11 @@ class LowQuefrencyMelSpectrum(Features):
     ::
         feature_params['feature']='lcqft'            
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='lcqft'            
+        feature_params['feature'] = 'lcqft'
         Features.__init__(self, arg, feature_params)
+
 
 class HighQuefrencyMelSpectrum(Features):
     """
@@ -228,11 +251,14 @@ class HighQuefrencyMelSpectrum(Features):
     ::
         feature_params['feature']='hcqft'                    
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='hcqft'            
+        feature_params['feature'] = 'hcqft'
         Features.__init__(self, arg, feature_params)
 
 # Time Domain
+
+
 class RMS(Features):
     """
     Root mean square (RMS)
@@ -241,11 +267,13 @@ class RMS(Features):
         feature_params['mantitude']=True
         feature_params['log10']=False    
     """
-    def __init__(self, arg=None, **feature_params):        
-        feature_params['feature']='power'
-        feature_params['mantitude']=True
-        feature_params['log10']=False
+
+    def __init__(self, arg=None, **feature_params):
+        feature_params['feature'] = 'power'
+        feature_params['mantitude'] = True
+        feature_params['log10'] = False
         Features.__init__(self, arg, feature_params)
+
 
 class LinearPower(Features):
     """
@@ -255,11 +283,13 @@ class LinearPower(Features):
         feature_params['mantitude']=False
         feature_params['log10']=False
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='power'
-        feature_params['mantitude']=False
-        feature_params['log10']=False
+        feature_params['feature'] = 'power'
+        feature_params['mantitude'] = False
+        feature_params['log10'] = False
         Features.__init__(self, arg, feature_params)
+
 
 class dBPower(Features):
     """
@@ -269,132 +299,169 @@ class dBPower(Features):
         feature_params['mantitude']=False
         feature_params['log10']=True    
     """
+
     def __init__(self, arg=None, **feature_params):
-        feature_params['feature']='power'
-        feature_params['mantitude']=False
-        feature_params['log10']=True
+        feature_params['feature'] = 'power'
+        feature_params['mantitude'] = False
+        feature_params['log10'] = True
         Features.__init__(self, arg, feature_params)
 
 # Statistics and Derivatives
+
+
 class LinearFrequencySpectrumCentroid(Features):
     """
     Linear-Frequency Spectrum Centroid
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='stft'
+        kwargs['feature'] = 'stft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
         self.X = (self.X.T * self._fftfrqs).sum(1) / self.X.T.sum(1)
+
 
 class LogFrequencySpectrumCentroid(Features):
     """
     Log-Frequency Spectrum Centroid
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='cqft'
+        kwargs['feature'] = 'cqft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
         self.X = (self.X.T * self._logfrqs).sum(1) / self.X.T.sum(1)
+
 
 class MelFrequencySpectrumCentroid(Features):
     """
     Mel-Frequency Spectrum Centroid
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='cqft'
+        kwargs['feature'] = 'cqft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
         self.X = (self.X.T * self._logfrqs).sum(1) / self.X.T.sum(1)
+
 
 class LinearFrequencySpectrumSpread(Features):
     """
     Linear-Frequency Spectrum Spread
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='stft'
+        kwargs['feature'] = 'stft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
         mf = (self.X.T * self._fftfrqs).sum(1) / self.X.T.sum(1)
-        self.X = (((self.X / self.X.T.sum(1)).T * ((P.atleast_2d(self._fftfrqs).T - mf)).T)**2).sum(1)
+        self.X = (((self.X / self.X.T.sum(1)).T *
+                   ((P.atleast_2d(self._fftfrqs).T - mf)).T)**2).sum(1)
+
 
 class LogFrequencySpectrumSpread(Features):
     """
     Log-Frequency Spectrum Spread
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='cqft'
+        kwargs['feature'] = 'cqft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
         mf = (self.X.T * self._logfrqs).sum(1) / self.X.T.sum(1)
-        self.X = (((self.X / self.X.T.sum(1)).T * ((P.atleast_2d(self._logfrqs).T - mf)).T)**2).sum(1) 
+        self.X = (((self.X / self.X.T.sum(1)).T *
+                   ((P.atleast_2d(self._logfrqs).T - mf)).T)**2).sum(1)
+
 
 class MelFrequencySpectrumSpread(Features):
     """
     Mel-Frequency Spectrum Spread
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='cqft'
+        kwargs['feature'] = 'cqft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
         mf = (self.X.T * self._logfrqs).sum(1) / self.X.T.sum(1)
-        self.X = (((self.X / self.X.T.sum(1)).T * ((P.atleast_2d(self._logfrqs).T - mf)).T)**2).sum(1) 
+        self.X = (((self.X / self.X.T.sum(1)).T *
+                   ((P.atleast_2d(self._logfrqs).T - mf)).T)**2).sum(1)
 
-#TODO: have STFT calculate _fftfreqs so axis plots are easy
+# TODO: have STFT calculate _fftfreqs so axis plots are easy
 #      have feature_plot be intelligent about feature dimensions
 #      check frame count and last frame behaviour
 #      limit frames read with keyword argument
-      
+
+
 class LinearFrequencySpectrumFlux(Features):
     """
     LinearFrequencySpectrumFlux    
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='stft'
+        kwargs['feature'] = 'stft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
-        self.X = P.sqrt((P.diff(self.X)**2).sum(0))/self.X.shape[0]
-        
+        self.X = P.sqrt((P.diff(self.X)**2).sum(0)) / self.X.shape[0]
+
+
 class LogFrequencySpectrumFlux(Features):
     """
     LogFrequencySpectrumFlux
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='cqft'
+        kwargs['feature'] = 'cqft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
-        self.X = P.sqrt((P.diff(self.X)**2).sum(0))/self.X.shape[0]
-        
+        self.X = P.sqrt((P.diff(self.X)**2).sum(0)) / self.X.shape[0]
+
+
 class MelFrequencySpectrumFlux(Features):
     """
     MelFrequencySpectrumFlux        
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='cqft'
+        kwargs['feature'] = 'cqft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
-        self.X = P.sqrt((P.diff(self.X)**2).sum(0))/self.X.shape[0]
+        self.X = P.sqrt((P.diff(self.X)**2).sum(0)) / self.X.shape[0]
+
 
 class LowQuefrencyCepstrumFlux(Features):
     """
     LowQuefrencyCepstrumFlux
     """
+
     def __init__(self, arg, **kwargs):
-        kwargs['feature']='lcqft'
+        kwargs['feature'] = 'lcqft'
         Features.__init__(self, arg, kwargs)
+
     def extract(self):
         Features.extract(self)
-        self.X = P.sqrt((P.diff(self.X)**2).sum(0))/self.X.shape[0]
+        self.X = P.sqrt((P.diff(self.X)**2).sum(0)) / self.X.shape[0]
 
 # LinearFrequencyModulationPowerSpectrum
+
+
 class LinearFrequencyModulationPowerSpectrum(Features):
     """
     LinearFrequencyModulationPowerSpectrum
@@ -404,8 +471,8 @@ class LinearFrequencyModulationPowerSpectrum(Features):
     _hop = None
 
     def __init__(self, arg, window=None, hop=None, logscale=False, **kwargs):
-        kwargs['feature']='stft'
-        self._window, self._hop, self._log  = window, hop, logscale
+        kwargs['feature'] = 'stft'
+        self._window, self._hop, self._log = window, hop, logscale
         Features.__init__(self, arg, kwargs)
 
     def extract(self):
@@ -414,32 +481,42 @@ class LinearFrequencyModulationPowerSpectrum(Features):
         window, hop = self._window, self._hop
         if window and hop is not None:
             fp = self.feature_params
-            num_frames = int((window*fp['sample_rate'])/(1000.0*fp['nhop']))
-            num_hop = int((hop*fp['sample_rate'])/(1000.0*fp['nhop']))
-            print num_frames, num_hop
-            if not num_frames and num_hop :
-                raise ValueError("num_frames and num_hop too small for FFT window / hop")
-            else :
+            num_frames = int(
+                (window * fp['sample_rate']) / (1000.0 * fp['nhop']))
+            num_hop = int((hop * fp['sample_rate']) / (1000.0 * fp['nhop']))
+            print(num_frames, num_hop)
+            if not num_frames and num_hop:
+                raise ValueError(
+                    "num_frames and num_hop too small for FFT window / hop")
+            else:
                 Y = []
-                for k in range(0,self.X.shape[1]-window+1,num_hop):
-                    X = log(self.X[:,np.arange(k,k+num_frames)]+np.finfo(np.float32).eps) if self._log else self.X[:,np.arange(k,k+num_frames)]
-                    Y.append(np.fft.fftshift(np.absolute(np.fft.fft2(X))).flatten())
+                for k in range(0, self.X.shape[1] - window + 1, num_hop):
+                    X = log(self.X[:, np.arange(k, k + num_frames)] + np.finfo(
+                        np.float32).eps) if self._log else self.X[:, np.arange(k, k + num_frames)]
+                    Y.append(
+                        np.fft.fftshift(np.absolute(np.fft.fft2(X))).flatten())
                 self.X = np.array(Y)
         else:
-            self.X = log(self.X+np.finfo(np.float32).eps) if self._log else self.X
+            self.X = log(
+                self.X + np.finfo(np.float32).eps) if self._log else self.X
             self.X = np.fft.fftshift(np.absolute(np.fft.fft2(self.X)))
 
 # LogFrequencyModulationPowerSpectrum
+
+
 class LogFrequencyModulationPowerSpectrum(LinearFrequencyModulationPowerSpectrum):
     """
     LogFrequencyModulationPowerSpectrum
     """
+
     def __init__(self, arg, window=None, hop=None, logscale=False, **kwargs):
-        kwargs['feature']='cqft'
-        self._window, self._hop, self._log  = window, hop, logscale
+        kwargs['feature'] = 'cqft'
+        self._window, self._hop, self._log = window, hop, logscale
         Features.__init__(self, arg, kwargs)
 
 # MelFrequencyModulationPowerSpectrum
+
+
 class MelFrequencyModulationPowerSpectrum(LogFrequencyModulationPowerSpectrum):
     """
     MelFrequencyModulationPowerSpectrum
@@ -452,10 +529,12 @@ class MelFrequencyModulationPowerSpectrum(LogFrequencyModulationPowerSpectrum):
 # convenience handles
 imagesc = feature_plot
 default_feature_params = Features.default_params
-P.ion() # activiate interactive plotting
+P.ion()  # activiate interactive plotting
 
 # UTILITY FUNCTIONS
-def plot3(x,y=None,z=None, ax=None, *args, **kwargs):
+
+
+def plot3(x, y=None, z=None, ax=None, *args, **kwargs):
     """
     Emulate Matlab's plot3 function for 3d data.
     If y and z are not supplied, assume x has 3d columns.
@@ -465,14 +544,16 @@ def plot3(x,y=None,z=None, ax=None, *args, **kwargs):
     if ax is None:
         ax = Axes3D(fig)
     if y is None and z is None:
-        ax.plot(x[:,0],x[:,1],x[:,2],*args,**kwargs)
+        ax.plot(x[:, 0], x[:, 1], x[:, 2], *args, **kwargs)
     else:
-        ax.plot(x,y,z,*args,**kwargs)
+        ax.plot(x, y, z, *args, **kwargs)
     P.show()
     return ax
 
-import PIL as PL # for rotate spectrum
+import PIL as PL  # for rotate spectrum
 import bregman as br
+
+
 def rotate_spectrum(F=None, degrees=5, noise_phase=False, **kwargs):
     # Cochlear processing
     if F is None:
@@ -483,8 +564,9 @@ def rotate_spectrum(F=None, degrees=5, noise_phase=False, **kwargs):
     X1 = np.array(I.rotate(degrees).getdata()).reshape(X.shape)
     # Signal reconstruction via iCQFT
     if noise_phase:
-        x_hat = F.inverse(X1,Phi_hat=np.random.randn(F.STFT.shape[0],F.STFT.shape[1])*2*np.pi, **kwargs)
+        x_hat = F.inverse(X1, Phi_hat=np.random.randn(
+            F.STFT.shape[0], F.STFT.shape[1]) * 2 * np.pi, **kwargs)
     else:
-        x_hat = F.inverse(X1,**kwargs)
+        x_hat = F.inverse(X1, **kwargs)
     F.X_hat = X1
     return X1
