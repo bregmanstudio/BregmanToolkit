@@ -9,4 +9,4 @@ __email__ = 'mcasey@dartmouth.edu'
 # Exception Handling class
 class BregmanError(Exception):
     def __init__(self, msg):
-        print "Bregman error:", msg
+        print("Bregman error:", msg)

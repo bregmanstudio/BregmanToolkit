@@ -26,7 +26,7 @@ class TestSignalError(Exception):
     Test signal exception class.
     """
     def __init__(self, msg):
-        print "TestSignal: " + msg
+        print("TestSignal: " + msg)
 
 # Return parameter dict used by all of the test signal generators
 def default_signal_params():
@@ -256,7 +256,7 @@ def modulate(sig, env, nsamps):
         nsamps - audio samples per envelope frame
     """
     if( sig.size != len(env)*nsamps ):
-        print "Source signal size must equal len(env) * nsamps"
+        print("Source signal size must equal len(env) * nsamps")
         return False
     y = pylab.zeros(sig.size)
     start = 0

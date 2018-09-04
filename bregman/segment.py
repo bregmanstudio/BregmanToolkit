@@ -1,6 +1,6 @@
-import classifier
-import features
-import sound
+from . import classifier
+from . import features
+from . import sound
 import numpy as np
 import pylab as pl
 import scipy.signal
@@ -146,7 +146,7 @@ class GeneralAudioSegmentor(Segmentor):
         clusters = self.assigns[self.diffs[:-1]]
         sr = self.feature.sample_rate
         for seg in np.where(clusters==k)[0]:
-            print self.segmentation[seg]
+            print(self.segmentation[seg])
             x = sound.wavread(self.media, first=int(self.segmentation[seg].time_span.start_time*sr), last=int(self.segmentation[seg].time_span.duration*sr))
             sound.play(x[0].T, sr)
 

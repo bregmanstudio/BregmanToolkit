@@ -4,7 +4,7 @@ from scipy.signal import lfilter
 from pylab import zeros, where, diff, sqrt
 
 
-def beat_track(x, feature=LogFrequencySpectrum, **kwargs):
+def beat_track(x, feature=features.LogFrequencySpectrum, **kwargs):
     """
     Scheirer beat tracker. Use output of comb filter bank on filterbank
                            sub-bands to estimate tempo, and comb filter state
