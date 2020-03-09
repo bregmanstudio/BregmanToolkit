@@ -350,11 +350,11 @@ class Features(object):
         self._dctN = self._cqtN
         self._outN = float(self.nfft/2+1)
         if self._cqtN<1: print "warning: cqtN not positive definite"
-        mxnorm = P.empty(self._cqtN) # Normalization coefficients        
+        mxnorm = P.empty(int(self._cqtN)) # Normalization coefficients        
         fftfrqs = self._fftfrqs #P.array([i * self.sample_rate / float(self._fftN) for i in P.arange(self._outN)])
         logfrqs=P.array([lo_edge * P.exp(P.log(2.0)*i/bpo) for i in P.arange(self._cqtN)])
         logfbws=P.array([max(logfrqs[i] * (f_ratio - 1.0), self.sample_rate / float(self._fftN)) 
-                         for i in P.arange(self._cqtN)])
+                         for i in P.arange(int(self._cqtN))])
         #self._fftfrqs = fftfrqs
         self._logfrqs = logfrqs
         self._logfbws = logfbws
